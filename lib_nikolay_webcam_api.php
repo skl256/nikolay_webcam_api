@@ -134,12 +134,12 @@
 				$filename = "";
 				if ($video_duration == 0) {
 					$filename = "$dir_name/image_$camera_name" . "_" . date("Ymd_His", time()) . "_$rand_string.jpg";
-					$ffmpeg_string = $ffmpeg_string . "-i \"$url$path\" -y -vframes 1 $add_string_to_end_p $filename";
+					$ffmpeg_string = $ffmpeg_string . "-i \"$url$path\" -y -vframes 1 $add_string_to_end_p \"$filename\"";
 				} else if ($video_duration > 0) {
 					$filename = "$dir_name/video_$camera_name" . "_" . date("Ymd_His", time()) . "_$rand_string.mp4";
 					$escapeshellarg_video_duration = escapeshellarg($video_duration);
 					$ffmpeg_string_audio_aipwc = ($camera_config['ANDROID_IPWEBCAM_AUDIO_ENABLED']) ? ("-i \"$url/audio.opus\" -c:a mp3") : ("");
-					$ffmpeg_string = $ffmpeg_string . "$i_framerate -i \"$url$path\" $ffmpeg_string_audio_aipwc -t $escapeshellarg_video_duration -y $add_string_to_end_v $filename";
+					$ffmpeg_string = $ffmpeg_string . "$i_framerate -i \"$url$path\" $ffmpeg_string_audio_aipwc -t $escapeshellarg_video_duration -y $add_string_to_end_v \"$filename\"";
 				}
 				writeLog("PROCESS", "BEGIN getFromIpWebcam() with exec($ffmpeg_string)");
 				$exec_output = array();
