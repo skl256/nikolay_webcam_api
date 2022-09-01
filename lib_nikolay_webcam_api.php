@@ -1,6 +1,6 @@
 <?php
 
-	//lib_nikolay_webcam_api.php v 2022-05-27-19-30 https://t.me/skl256
+	//lib_nikolay_webcam_api.php v 2022-09-01-17-20 https://t.me/skl256
 	
 	/*Перед использованием необходимо убедиться в наличии ffmpeg, php-mbstring при необходимости установить: sudo apt-get install ffmpeg php-mbstring
 	
@@ -57,7 +57,7 @@
 			$dir_name = $camera_config['DIRECTORY'];
 		}
 		if (!is_dir($dir_name)) {
-			mkdir($dir_name);
+			mkdir($dir_name, 0777, true);
 		}
 		
 		$url = "";
