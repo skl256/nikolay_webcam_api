@@ -1,6 +1,6 @@
 <?php
 
-	//lib_nikolay_webcam_api.php v 2022-09-01-17-20 https://t.me/skl256
+	//lib_nikolay_webcam_api.php v 2022-10-08-00-25 https://t.me/skl256
 	
 	/*Перед использованием необходимо убедиться в наличии ffmpeg, php-mbstring при необходимости установить: sudo apt-get install ffmpeg php-mbstring
 	
@@ -23,7 +23,7 @@
 		'HTTP_BASIC_AUTH' => "", //DEFAULT = "", EXAMPLE = "login:password"
 		'VIDEO_I_FRAMERATE' => "", //DEFAULT = "", EXAMPLE = 5, try to use if you have problems with video speed
 		'ADD_STRING_TO_END_V' => "", //DEFAULT = "", EXAMPLE = "-an" ONLY FOR VIDEO
-		'ADD_STRING_TO_END_P' => "", //DEFAULT = "", EXAMPLE = "-f mjpeg" for Rubitek cam, ONLY FOR PHOTO
+		'ADD_STRING_TO_END_P' => "-vf \"select=eq(pict_type\\,PICT_TYPE_I)\" -vsync vfr", //DEFAULT = "", EXAMPLE = "-f mjpeg  -ss 1 -vf \"select=eq(pict_type\\,PICT_TYPE_I)\" -vsync vfr" ONLY FOR PHOTO (in example: "-f mjpeg" - force output format, "-ss 1" - start after 1s, RECOMMENDED: "-vf \"select=eq(pict_type\\,PICT_TYPE_I)\" -vsync vfr" - wait for a keyframe, avoids getting blurry intermediate frames)
 		'TIMEOUT' => "", //DEFAULT = 10, without taking into account the duration of the video
 		'IS_ANDRIOID_IPWEBCAM_APP' => "", //DEFAULT = false
 		'ANDROID_IPWEBCAM_AUDIO_ENABLED' => "", //DEFAULT = false
@@ -134,7 +134,7 @@
 				$filename = "";
 				if ($video_duration == 0) {
 					$filename = "$dir_name/image_$camera_name" . "_" . date("Ymd_His", time()) . "_$rand_string.jpg";
-					$ffmpeg_string = $ffmpeg_string . "-i \"$url$path\" -y -vframes 1 $add_string_to_end_p \"$filename\"";
+					$ffmpeg_string = $ffmpeg_string . "$i_framerate -i \"$url$path\" -y -vframes 1 $add_string_to_end_p \"$filename\"";
 				} else if ($video_duration > 0) {
 					$filename = "$dir_name/video_$camera_name" . "_" . date("Ymd_His", time()) . "_$rand_string.mp4";
 					$escapeshellarg_video_duration = escapeshellarg($video_duration);
